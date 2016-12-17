@@ -1,0 +1,67 @@
+extends layout
+include _includes/ortakfonksiyonlar
+block content
+  .row.page-header
+    .col-lg-12
+      //Mekanın adı
+      h1= sayfaBaslik.title
+  .row
+    //Responsive yap
+    .col-xs-12.col-md-9
+      .row
+        .col-xs-12.col-sm-6
+          //Yıldızları ekle
+          p.rating
+            +puanOlustur(mekanBilgisi.puan)
+          //Mekanın adresi
+          p= mekanBilgisi.adres
+          .panel.panel-primary
+            .panel-heading
+              h2.panel-title Açılış Saatleri
+            .panel-body
+              each saat in mekanBilgisi.saatler
+                p
+                  | #{saat.gunler}: 
+                  if saat.kapali
+                    | Kapalı
+                  else
+                    | #{saat.acilis} - #{saat.kapanis}
+          .panel.panel-primary
+            .panel-heading
+              h2.panel-title Neler Var
+            .panel-body
+              each imkan in mekanBilgisi.imkanlar
+                span.label.label-warning
+                  span.glyphicon.glyphicon-ok
+                  | &nbsp;#{imkan}
+                | &nbsp;
+              //Haritayı ekleme işlemi
+        .col-xs-12.col-sm-6.location-map
+          .panel.panel-primary
+            .panel-heading
+              h2.panel-title Konum Bilgisi
+            .panel-body
+              //Harita eklemek için Google'dan API anahtarı almanız gerekiyor. key kısmından sonra yer alan kısım API KEY.
+              img.img-responsive.img-rounded(src='http://maps.googleapis.com/maps/api/staticmap?center=#{mekanBilgisi.koordinatlar.enlem},#{mekanBilgisi.koordinatlar.boylam}&zoom=12&size=400x400&markers=#{mekanBilgisi.koordinatlar.enlem},#{mekanBilgisi.koordinatlar.boylam}&key=AIzaSyDiGNr9ZKPoqok7vv-f5-qVzF6Ootef7ts')
+      .row
+        .col-xs-12
+          .panel.panel-primary.review-panel
+            .panel-heading
+              //Yorum ekle düğmesini ekle
+              a.btn.btn-default.pull-right(href='/mekan/yorum/yeni') Yorum Ekle
+              h2.panel-title Müşteri Yorumları
+            .panel-body.review-container
+               each yorum in mekanBilgisi.yorumlar
+                .row
+                 .review
+                  .well.well-sm.review-header
+                    span.rating
+                      +puanOlustur(mekanBilgisi.puan)
+                    span.reviewAuthor #{yorum.ad}  
+                    small.reviewTimestamp #{yorum.saat} 
+                  .col-xs-12
+                    p #{yorum.yorumMetni} 
+              .row
+                //Yan tarafta responsive görünümde açıklama ekleme işleme
+    .col-xs-12.col-md-3
+      p.lead #{yanMetin.icerik} 

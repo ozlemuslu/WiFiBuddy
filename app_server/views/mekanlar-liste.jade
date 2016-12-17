@@ -1,0 +1,32 @@
+extends layout
+include _includes/ortakfonksiyonlar
+block content
+  #banner.page-header
+    .row
+      .col-lg-6
+        //Controller içinde tanımladığımız değişkeni kullandık
+        //# işareti veriyi jade dosyası içinde bir yere eklemek
+        //için kullanılır.
+        h1=pageHeader.baslik
+          small &nbsp;#{pageHeader.aciklama}
+  .row
+    .col-xs-12.col-sm-8
+      .row.list-group
+        //each ifadesi dizide dolaşmayı sağlıyor.
+        each mekan in mekanlar
+         .col-xs-12.list-group-item
+           h4
+             a(href='/mekan')= mekan.ad
+             small &nbsp;
+             //Javascript kodu eklemek için - işareti kullanılır.
+             //Dolu ve boş yıldızlar için for döngüsü kurduk.
+             +puanOlustur(mekan.puan)
+           span.badge.pull-right.badge-default= mekan.mesafe
+           p.address= mekan.adres
+           p
+            each imkan in mekan.imkanlar
+              span.label.label-warning= imkan
+              &nbsp;
+    .col-xs-12.col-sm-4
+      p.lead
+        | Oturacak bir yer ve ücretsiz WiFi mı arıyorsunuz? WiFi Buddy yakınınızdaki ücretsiz WiFi hizmeti sunan yerleri listeler.

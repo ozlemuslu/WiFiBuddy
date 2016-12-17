@@ -1,9 +1,14 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
-var ctrlMain = require('../controllers/main');
+var ctrlMekanlar = require('../controllers/mekanlar');
+var ctrlDigerleri = require('../controllers/digerleri');
 
-router.get('/', ctrlMain.index);
+// Mekanlara ait sayfalar
+router.get('/', ctrlMekanlar.anaSayfa);
+router.get('/mekan', ctrlMekanlar.mekanBilgisi);
+router.get('/mekan/yorum/yeni', ctrlMekanlar.yorumEkle);
 
+//Diğer sayfalar
+router.get('/hakkinda', ctrlDigerleri.hakkinda);
 module.exports = router;
